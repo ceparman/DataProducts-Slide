@@ -1,0 +1,61 @@
+---
+title: "Interactive Stock Plotter"
+author: "Craig Parman"
+date: "Sunday, August 23, 2015"
+output: slidy_presentation
+---
+## Project Objective: 
+
+Demonstrate how to create interactive stock carts using Shiny.  
+
+* The charts and indicators will be generated using the quantmod package available on cran.
+
+* This demonstration project will download data for a single stock, IBM, from the start of 2013 to the present day.
++ this is limited to a single stock to limit download bandwidth
+
+* The user can add various technical indicators on the plot using the interactive GUI. The following indicators are implemented.
+
+
+MACD: Moving Average Convergence Divergence, 
+Bolinger Bands: 20 day 2 standard deviations of price, 
+EMA: Exponential Moving average over 20 days, 
+ATR: Average True Range, 
+Volatility: Volatility of stock
+
+
+## Basic Stock Plot
+
+```{r eval=TRUE,echo=FALSE,cache=TRUE,message=FALSE,fig.width=4, fig.height=3}
+library(quantmod)
+options("getSymbols.warning4.0"=FALSE)
+getSymbols("IBM", src="yahoo", from = "2013-1-1")
+chartSeries(IBM,theme=chartTheme('white'))
+```
+
+
+This is the basic stock plot without any indicators.  This is produced with the quantmod "chartSeries" function.  The upper plot show the price history and the lower panel shows the daily volume.
+
+## Technical Indicators
+
+
+```{r eval=TRUE,echo=FALSE,cache=TRUE,message=FALSE,fig.width=4, fig.height=3}
+library(quantmod)
+options("getSymbols.warning4.0"=FALSE)
+getSymbols("IBM", src="yahoo", from = "2013-1-1" )
+chartSeries(IBM,theme=chartTheme('white'),plot=FALSE)
+addBBands()
+
+```
+
+In this case we have added the Bolinger Bands indicator.  The application allows the user to interactively add one or more of the five indicators to the plot.  Some of the indicators are plotted directly on the price chart, some are added as an additional panel below.
+ 
+## Using the Shiny App
+
+This is a screen capture of the Shiny application.  The check boxes for adding the technical indicators are circled in red.
+
+Note that because the application downloads the latest stock information on initialization the may be a short delay in opening the initial plot.
+
+![](assets/fig/app.PNG)
+
+
+
