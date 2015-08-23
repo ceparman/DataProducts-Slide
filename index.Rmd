@@ -1,0 +1,91 @@
+---
+title       : Interactive Technical Stock Charts with Shiny
+subtitle    : 
+author      : Craig Parman
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+
+## Project Objective: 
+
+Demonstrate how to create interactive stock carts using Shiny.  
+
+    
+## Project Approach  
+ 
+* The charts and indicators will be generated using the quantmod package avaialble on cran.
+
+* This demostration project will download data for a single stock, IBM, from the start of 2013 to the present day.
++ this is limited to a single stock to limit download bandwidth
+
+* The user can add various technical indicators on the plot using the interactive GUI.
+
+--- &twocol
+
+## Basic Stock Plot
+
+*** =left
+
+```{r eval=TRUE,echo=FALSE,cache=TRUE,message=FALSE,fig.width=6}
+library(quantmod)
+options("getSymbols.warning4.0"=FALSE)
+getSymbols("IBM", src="yahoo", from = "2013-1-1")
+chartSeries(IBM,theme=chartTheme('white'))
+```
+
+*** =right
+
+This is the basic stock plot without any indicators.  This is produced with the quantmod "chartSeries" function.  
+
+The upper plaot show the price history and the lower panel shows the daily volume.
+
+With the app the user can simpley select the indicators they whis to add. Current indicators implemented are:
+
+
+*MACD: Moving Average Convergence Divergence
+
+*Bolinger Bands: 20 day 2 standard deviations of price
+
+*EMA: Exponential Moving average over 20 days
+
+*ATR: Average True Range
+
+*Volatility: Volitility of stock
+
+--- &twocol
+
+## Technical Indicators
+
+*** =left
+
+```{r eval=TRUE,echo=FALSE,cache=TRUE,message=FALSE,fig.width=6}
+library(quantmod)
+options("getSymbols.warning4.0"=FALSE)
+getSymbols("IBM", src="yahoo", from = "2013-1-1" )
+chartSeries(IBM,theme=chartTheme('white'),plot=FALSE)
+addBBands()
+
+```
+
+*** =right
+
+In this case we have added the Bolinger Bands indicator.  The application allows the user to interactiveley add one or more of the five indicators to the plot.  Some of the indicators are plotted directly on the price chart, some are added as an additional panel below.
+
+---
+## Using the Shiny App
+
+This is a screen capture of the Shiny application.  The checkboxes for adding the technical indicators are circled in red.
+
+Note that because the application downloads the lastest stock information on initialization the may be a short delay in opening the inital plot.
+
+![](assets/fig/app.PNG)
+
+
+
+
